@@ -1,8 +1,7 @@
 function findFirstRecurringItem(input: Array<number>) {
   for (let index = 0; index < input.length; index++) {
-    for (let j = index + 1; j < input.length; j++) {
+    for (let j = index - 1; j >= 0; j--) {
       if (input[index] === input[j]) {
-        console.log(input[index]);
         return input[index];
       }
     }
