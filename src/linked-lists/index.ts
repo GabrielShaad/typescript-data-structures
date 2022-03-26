@@ -1,10 +1,12 @@
 class LinkedListNode {
   value: unknown;
-  next: { value: unknown; next: unknown };
+  next: { value: unknown; previous: unknown; next: unknown };
+  previous: { value: unknown; previous: unknown; next: unknown };
 
   constructor(value) {
     this.value = value;
     this.next = null;
+    this.previous = null;
   }
 }
 
@@ -23,6 +25,7 @@ class LinkedList {
   append(value) {
     const newNode = new LinkedListNode(value);
 
+    newNode.previous = this.tail;
     this.tail.next = newNode;
     this.tail = newNode;
     this.length++;
@@ -34,6 +37,7 @@ class LinkedList {
     const newNode = new LinkedListNode(value);
 
     newNode.next = this.head;
+    this.head.previous = null;
     this.head = newNode;
     this.length++;
 
@@ -50,6 +54,17 @@ class LinkedList {
     return array;
   }
 
+  traverseToIndex(index) {
+    let counter = 0;
+    let currentNode: LinkedListNode = this.head;
+    while (counter !== index) {
+      currentNode = currentNode.next as LinkedListNode;
+      counter++;
+    }
+
+    return currentNode;
+  }
+
   insert(index, value) {
     if (index === 0) {
       this.prepend(value);
@@ -61,28 +76,30 @@ class LinkedList {
       return this.printList();
     }
 
-    const newNode: LinkedListNode = { next: null, value };
+    const newNode: LinkedListNode = { previous: null, next: null, value };
 
-    const leader = this.traverseToIndex(index - 1);
-    const pointer = leader.next;
+    const leader: LinkedListNode = this.traverseToIndex(index - 1);
+    const follower = leader.next as LinkedListNode;
 
     leader.next = newNode;
-    newNode.next = pointer;
+    newNode.previous = leader;
+    newNode.next = follower;
+    follower.previous = newNode;
 
     this.length++;
 
     return this.printList();
   }
 
-  traverseToIndex(index) {
-    let counter = 0;
-    let currentNode: LinkedListNode = this.head;
+  remove(index) {
+    const leader = this.traverseToIndex(index - 1);
+    const follower = leader.next as LinkedListNode;
 
-    while (counter !== index) {
-      currentNode = currentNode.next as LinkedListNode;
-      counter++;
-    }
+    leader.next = follower.next;
+    follower.previous = leader;
 
-    return currentNode;
+    this.length--;
+
+    return this.printList();
   }
 }
