@@ -58,18 +58,3 @@ class Queue {
     return !this.length;
   }
 }
-
-const myQueue = new Queue();
-
-console.log(myQueue.enqueue("Joy"));
-console.log(myQueue.enqueue("Matt"));
-console.log(myQueue.enqueue("Pavel"));
-console.log(myQueue.enqueue("Samir"));
-console.log(myQueue.peek());
-console.log(myQueue.dequeue());
-console.log(myQueue.isEmpty());
-console.log(myQueue.dequeue());
-console.log(myQueue.dequeue());
-console.log(myQueue.dequeue());
-console.log(myQueue.peek());
-console.log(myQueue.isEmpty());
